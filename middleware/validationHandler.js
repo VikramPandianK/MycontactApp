@@ -8,7 +8,7 @@ if(!authHeader){
     res.status(401);
     throw new Error("User is not authrozied or token is missing in the request");
 }
-console.log(authHeader);
+
 if(authHeader && authHeader.startsWith('Bearer')){
     token = authHeader.split(" ")[1];
     jwt.verify(token,process.env.ACCESS_TOKEN_SECRET_KEY,(err,decode)=>{

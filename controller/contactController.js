@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const contactModel = require('../models/contactModel');
+const logger  = require('../utils/logger');
 //@desc get all contacts
 //@route GET api/v1/contacts
 //@access private
@@ -16,7 +17,7 @@ const getContactsbyId = asyncHandler(async(req,res)=>{
     const contact = await contactModel.findById(req.params.id);
     if(!contact){
         res.status(404);
-        console.log('Contact not found');
+        
         throw new Error('Contact not found');
     }
    res.status(200).send({msg:"Success",details:contact});
@@ -33,6 +34,7 @@ if(!name || !email || !phone){
 }
 const contact = await contactModel.create({name,email,phone,user_id:req.user.id});
 res.status(201);
+logger.info("Contact created " + contact + "Created by " + req.user.id);
 res.send({msg: "created successfully",details: contact});
 });
 
